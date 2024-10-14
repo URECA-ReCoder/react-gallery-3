@@ -1,1 +1,1 @@
-# react-gallery-3
+# React + TypeScript + Vite

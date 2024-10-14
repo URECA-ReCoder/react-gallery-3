@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // 최신 ECMAScript 기능 사용
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // DOM과 최신 JS 기능 포함
+    "allowJs": false, // JS 파일 사용 비허용
+    "skipLibCheck": true, // 타입 체크 건너뛰기
+    "esModuleInterop": true, // ES 모듈 호환성 활성화
+    "allowSyntheticDefaultImports": true, // 기본 모듈 import 활성화
+    "strict": true, // 엄격한 타입 검사
+    "forceConsistentCasingInFileNames": true, // 파일 이름 대소문자 일관성
+    "module": "ESNext", // 최신 모듈 시스템 사용
+    "moduleResolution": "Node", // Node 방식 모듈 해석
+    "resolveJsonModule": true, // JSON 모듈 지원
+    "isolatedModules": true, // 각 파일을 독립적으로 처리
+    "noEmit": true, // 컴파일 시 JS 파일 생성 안 함
+    "jsx": "react-jsx" // React 17 JSX 변환 사용
+  },
+  "include": ["src"], // 컴파일할 폴더 지정
+  "exclude": ["node_modules", "dist"] // 제외할 폴더
+}
