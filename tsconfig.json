@@ -13,7 +13,8 @@
     "resolveJsonModule": true, // JSON 모듈 지원
     "isolatedModules": true, // 각 파일을 독립적으로 처리
     "noEmit": true, // 컴파일 시 JS 파일 생성 안 함
-    "jsx": "react-jsx" // React 17 JSX 변환 사용
+    "jsx": "react-jsx", // React 17 JSX 변환 사용
+    "jsxImportSource": "@emotion/react"
   },
   "include": ["src"], // 컴파일할 폴더 지정
   "exclude": ["node_modules", "dist"] // 제외할 폴더

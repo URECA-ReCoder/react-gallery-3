@@ -7,6 +7,9 @@ const GlobalStyles = () => {
     <Global
       styles={css`
         ${emotionNormalize}
+        * {
+          box-sizing: border-box;
+        }
         html,
         body {
           margin: 0;
