@@ -1,19 +1,93 @@
 /** @jsxImportSource @emotion/react */
 import { Global, css } from '@emotion/react';
-import emotionNormalize from 'emotion-normalize';
+import './font.css';
+
+const reset = css`
+  html,
+  body,
+  p,
+  ol,
+  ul,
+  li,
+  dl,
+  dt,
+  dd,
+  blockquote,
+  figure,
+  fieldset,
+  legend,
+  textarea,
+  pre,
+  iframe,
+  hr,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    padding: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 100%;
+    font-weight: normal;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  button,
+  input,
+  select {
+    margin: 0;
+    border: none;
+  }
+
+  input:focus,
+  select:focus,
+  option:focus,
+  textarea:focus,
+  button:focus {
+    outline: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  img,
+  video {
+    height: auto;
+    max-width: 100%;
+  }
+`;
 
 const GlobalStyles = () => {
   return (
     <Global
       styles={css`
-        ${emotionNormalize}
+        ${reset};
         * {
-          box-sizing: border-box;
+          font-family: 'Pretendard', Arial, Helvetica, sans-serif;
+          overscroll-behavior: none; // 스크롤이 오버되는 것을 막아준다.
         }
         html,
         body {
-          margin: 0;
-          padding: 0;
+          box-sizing: border-box;
+
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
         }
         ul,
         li {
