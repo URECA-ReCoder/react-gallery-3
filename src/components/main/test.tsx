@@ -1,11 +1,14 @@
 import { css } from '@emotion/react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function MainContent() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([
+    { id: 1, title: 'post-1', liked: false, isLogin: true },
+    { id: 2, title: 'post-2', liked: false, isLogin: true },
+    { id: 3, title: 'post-3', liked: false, isLogin: true },
+  ]);
   const [filter, setFilter] = useState('all');
-
   const toggleLiked = (id) => {
     setPosts(
       posts.map((post) =>
@@ -14,19 +17,19 @@ export default function MainContent() {
     );
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        'https://vicarious-arlyn-recoder-cb1ffac8.koyeb.app/missions',
-        {
-          headers: { accept: 'application/json' },
-        }
-      );
-      console.log('response =>', response.data);
-      setPosts(response.data);
-    };
-    fetchData();
-  }, []);
+  const [hongs, setHongs] = useState([]);
+
+  const testAPICall = async () => {
+    console.log('=== testAPICall ===');
+    let a = await axios.get(
+      'https://vicarious-arlyn-recoder-cb1ffac8.koyeb.app/missions',
+      {
+        headers: { accept: 'application/json' },
+      }
+    );
+    console.log('a => ', a.data);
+    setHongs(a.data);
+  };
 
   const filteredPosts =
     filter === 'liked' ? posts.filter((post) => post.liked) : posts;
@@ -39,11 +42,19 @@ export default function MainContent() {
       <div css={contentContainer}>
         {filteredPosts.map((post) => (
           <div key={post.id} css={contentWrapper}>
-            <h2>{post.type}</h2>
-            <span>{post.creator}</span>
+            <h2>{post.title}</h2>
             <button onClick={() => toggleLiked(post.id)}>
               {post.liked ? 'Unlike' : 'Like'}
             </button>
+          </div>
+        ))}
+        <button onClick={testAPICall}> 버튼 </button>
+      </div>
+      <div css={contentContainer}>
+        {hongs.map((hong) => (
+          <div key={hong.id} css={contentWrapper}>
+            <h2>{hong.type}</h2>
+            <span>{hong.creator}</span>
           </div>
         ))}
       </div>
@@ -59,19 +70,16 @@ const filterContainer = css`
   }
 `;
 const mainContainer = css`
-  width: 100%;
+  flex-grow: 1;
   margin-top: 80px;
   padding: 20px;
   border: 1px solid gray;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 `;
 const contentContainer = css`
-  display: grid;
-  grid-template-columns: repeat(4, 200px);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  border: 1px solid red;
 `;
 const contentWrapper = css`
   padding: 10px;

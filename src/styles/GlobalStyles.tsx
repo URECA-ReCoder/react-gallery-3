@@ -80,20 +80,16 @@ const GlobalStyles = () => {
         * {
           font-family: 'Pretendard', Arial, Helvetica, sans-serif;
           overscroll-behavior: none; // 스크롤이 오버되는 것을 막아준다.
+          scrollbar-width: none; // 스크롤의 기본 스타일은 지우고 스크롤의 기능만 사용
         }
         html,
         body {
           box-sizing: border-box;
-
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
         }
         ul,
         li {
           padding: 0;
           margin: 0;
-          list-style-type: none;
         }
         a {
           text-decoration: none; /* 밑줄 제거 */

@@ -28,7 +28,9 @@ const headerContainer = (theme) => {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 3;
     border-bottom: 1px solid #888;
+    background: #fff;
   `;
 };
 const menuContainer = css`
