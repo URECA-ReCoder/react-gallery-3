@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './Router';
 import { ThemeProvider } from '@emotion/react';
-import theme from './styles/Theme';
+import theme from './styles/theme';
 
 import GlobalStyles from './styles/GlobalStyles.jsx';
 import './index.css';
