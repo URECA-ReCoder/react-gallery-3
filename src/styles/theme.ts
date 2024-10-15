@@ -16,7 +16,7 @@ const fontSize = {
   mini: '10px',
   small: '12px',
   medium: '14px',
-  large: '16px',
+  large: '17px',
   subtitle: '18px',
   title: '22px',
   maintitle: '32px',
