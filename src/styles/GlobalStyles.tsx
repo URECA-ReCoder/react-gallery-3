@@ -11,14 +11,6 @@ const GlobalStyles = () => {
         body {
           margin: 0;
           padding: 0;
-          width: 100vw;
-          height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          box-sizing: border-box;
-          background: url('/pixel_back2_half.png') no-repeat center;
-          background-size: cover;
         }
       `}
     />
