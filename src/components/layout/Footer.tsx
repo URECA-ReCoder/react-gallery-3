@@ -10,7 +10,8 @@ export default function Footer() {
           <p>[02000] 202, Recoder-ro, Seongbuk-gu, Seoul, Korea</p>
           <p>Tel: 02-1234-5678 | FAX: 02-111-1234</p>
           <p>
-            E-mail: <a href="mailto:art001@recoder.ac.kr">recoderstudy@recoder.ac.kr</a>
+            E-mail:{' '}
+            <a href="mailto:art001@recoder.ac.kr">recoderstudy@recoder.ac.kr</a>
           </p>
           <p>Copyright (C) 2024 Recoder University. All Rights Reserved</p>
         </div>
@@ -22,17 +23,16 @@ export default function Footer() {
   );
 }
 
-
 const footerContainer = css`
   background-color: #3b3b3b;
   color: white;
   padding: 20px;
   text-align: center;
   font-size: 12px;
-  width: 1400px; 
-  position: fixed; 
-  bottom: 0; 
-  left: 0; 
+  width: 1400px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 `;
 
 const footerContent = css`
