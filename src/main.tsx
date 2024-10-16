@@ -4,8 +4,10 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './Router';
 import { ThemeProvider } from '@emotion/react';
 import theme from './styles/theme';
-
 import GlobalStyles from './styles/GlobalStyles.jsx';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

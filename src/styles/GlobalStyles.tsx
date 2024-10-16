@@ -25,7 +25,10 @@ const reset = css`
   h3,
   h4,
   h5,
-  h6 {
+  h6,
+  input,
+  select,
+  table {
     margin: 0;
     padding: 0;
   }
@@ -90,6 +93,7 @@ const GlobalStyles = () => {
         li {
           padding: 0;
           margin: 0;
+          width: 100%;
         }
         a {
           text-decoration: none; /* 밑줄 제거 */
@@ -98,6 +102,7 @@ const GlobalStyles = () => {
         }
         button {
           background: none;
+          cursor: pointer;
         }
       `}
     />
