@@ -1,4 +1,6 @@
 import { css } from '@emotion/react';
+import LikeFill from '/assets/images/like-fill.svg';
+import Like from '/assets/images/like.svg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -42,7 +44,11 @@ export default function MainContent() {
             <h2>{post.type}</h2>
             <span>{post.creator}</span>
             <button onClick={() => toggleLiked(post.id)}>
-              {post.liked ? 'Unlike' : 'Like'}
+              {post.liked ? (
+                <img src={Like} css={buttonStyle} />
+              ) : (
+                <img src={LikeFill} css={buttonStyle} />
+              )}
             </button>
           </div>
         ))}
@@ -50,6 +56,10 @@ export default function MainContent() {
     </main>
   );
 }
+const buttonStyle = css`
+  width: 30px;
+  height: 30px;
+`;
 const filterContainer = css`
   display: flex;
   gap: 5px;

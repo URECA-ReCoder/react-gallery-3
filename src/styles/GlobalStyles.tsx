@@ -96,6 +96,9 @@ const GlobalStyles = () => {
           color: inherit; /* 텍스트 색상을 부모 요소와 일치 */
           cursor: pointer; /* 마우스 포인터를 손가락 모양으로 */
         }
+        button {
+          background: none;
+        }
       `}
     />
   );
