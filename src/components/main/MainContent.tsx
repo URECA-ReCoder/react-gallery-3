@@ -4,11 +4,18 @@ import Like from '/assets/images/like.svg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-export default function MainContent() {
-  const [posts, setPosts] = useState([]);
-  const [filter, setFilter] = useState('all');
+interface Post {
+  id: number;
+  type: string;
+  creator: string;
+  liked: boolean;
+}
 
-  const toggleLiked = (id) => {
+export default function MainContent() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [filter, setFilter] = useState<'all' | 'liked'>('all');
+
+  const toggleLiked = (id: number) => {
     setPosts(
       posts.map((post) =>
         post.id === id ? { ...post, liked: !post.liked } : post
