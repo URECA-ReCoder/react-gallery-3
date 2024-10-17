@@ -20,11 +20,6 @@ export default function MainContent() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 좋아요 상태 변경
 
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    setIsLoggedIn(!!token); //토큰이 있다면 로그인 상태로 설정
-  }, []);
-
   // 좋아요 상태 변경 및 좋아요 개수 업데이트
   const toggleLiked = (id: string) => {
     setPosts(
@@ -152,8 +147,17 @@ const footerContainer = css`
 
 const filterButtonStyle = css`
   border: 1px solid gray;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    background-color: #eee;
+    color: #000;
+  }
 `;
 const filterContainer = css`
   display: flex;
@@ -170,6 +174,7 @@ const mainContainer = css`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  align-items: center;
 `;
 const contentContainer = css`
   /* grid 보단 flex로 하는게 더 유연하다. */
@@ -179,6 +184,7 @@ const contentContainer = css`
   gap: 15px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 const contentWrapper = css`
   width: 135px;
@@ -189,4 +195,23 @@ const contentWrapper = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    h2 {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    span {
+      font-size: 14px;
+      color: #666;
+    }
+  }
 `;
