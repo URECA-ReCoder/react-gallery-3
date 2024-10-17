@@ -51,6 +51,7 @@ const reset = css`
   input,
   select {
     margin: 0;
+    padding: 0;
     border: none;
   }
 

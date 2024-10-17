@@ -8,8 +8,13 @@ interface Post {
   id: string;
   type: number;
   creator: string;
-  liked: boolean;
-  likeCount: number;
+  likes: {
+    id: string;
+    missionId: string;
+    userId: string;
+    username: string;
+    creatAt: string;
+  }[];
 }
 
 export default function MainContent() {
@@ -17,14 +22,14 @@ export default function MainContent() {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<
-    'all' | 'liked' | 'VANILLA_TODO' | 'REACT_TODO' | 'REACT_SNS'
+    'all' | 'like' | 'VANILLA_TODO' | 'REACT_TODO' | 'REACT_SNS'
   >('all');
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 좋아요 상태 변경
 
   // 필터링 된 항목들
   const filteredPosts =
-    filter === 'liked' ? posts.filter((post) => post.liked) : posts;
+    filter === 'like' ? posts.filter((post) => post.likes) : posts;
   console.log(selectedPost);
 
   // 미션 목록 가져오기 API
@@ -76,7 +81,18 @@ export default function MainContent() {
       setError('카테코리 별 필터링 정보를 가져오는 중 오류가 발생했습니다.');
     }
   };
-
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/profile', {
+        headers: { accept: 'application/json' },
+      });
+      setIsLoggedIn(response.data);
+    } catch (err) {
+      console.error('현재 로그인한 사용자 정보 오류 발생', err);
+      setError('현재 로그인한 사용자 정보를 가져오는 중 오류가 발생했습니다.');
+    }
+  };
+  console.log('fetchProfile', fetchProfile);
   if (error) {
     return <div>{error}</div>;
   }
@@ -95,11 +111,8 @@ export default function MainContent() {
               </button>
             </li>
             <li>
-              <button
-                css={filterButtonStyle}
-                onClick={() => setFilter('liked')}
-              >
-                <span css={fontStyle}>Liked</span>
+              <button css={filterButtonStyle} onClick={() => setFilter('like')}>
+                <span css={fontStyle}>Like</span>
               </button>
             </li>
             <li>
@@ -142,8 +155,8 @@ export default function MainContent() {
               <span>{post.creator}</span>
               <LikeButton
                 missionId={post.id}
-                initialLiked={post.liked}
-                initialLikeCount={post.likeCount}
+                // initialLiked={post.likes()}
+                initialLikeCount={post.likes.length}
                 isLoggedIn={isLoggedIn} // 로그인 여부
               />
             </div>

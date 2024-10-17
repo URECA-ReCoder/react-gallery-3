@@ -21,7 +21,7 @@ export default function LikeButton({
   const [likeCount, setLikeCount] = useState(initialLikeCount);
 
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iuq5gOycpOydvCIsInN1YiI6IjM1NWI3YWUxLWM1MmEtNDg2Yi04NThiLTIwMjkwM2Q5OWJhOSIsImlhdCI6MTcyOTE1NjY4NCwiZXhwIjoxNzI5MTYwMjg0fQ.no-bQYrPwMhM-AThZDx8MwLI7i9m4U7tBztWFK5p9Xw';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iuq5gOycpOydvCIsInN1YiI6IjM1NWI3YWUxLWM1MmEtNDg2Yi04NThiLTIwMjkwM2Q5OWJhOSIsImlhdCI6MTcyOTE2NDE4NCwiZXhwIjoxNzI5MTY3Nzg0fQ.dJDtN7gVar54PxzDLst8u9l-IsF9co4X6H6_p601niw';
   const handleLikeClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
     missionId: string
@@ -47,7 +47,8 @@ export default function LikeButton({
       // API 호출 성공 시 상태 업데이트
       if (response.status === 201) {
         setLiked(!liked);
-        setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+        setLikeCount((prevCount) => (liked ? prevCount - 1 : prevCount + 1));
+        console.log('like', likeCount);
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
@@ -58,22 +59,22 @@ export default function LikeButton({
     }
   };
 
-  // 좋아요 갯수 기능
-  useEffect(() => {
-    const fetchLikeCount = async (token: string) => {
-      const response = await axios.post(
-        `http://localhost:8080/mission/${missionId}/like`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setLikeCount(response.data.likeCount);
-    };
-    fetchLikeCount(token);
-  }, []);
+  // // 좋아요 갯수 기능
+  // useEffect(() => {
+  //   const fetchLikeCount = async (token: string) => {
+  //     const response = await axios.post(
+  //       `http://localhost:8080/mission/${missionId}/like`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     setLikeCount(response.data.likeCount);
+  //   };
+  //   fetchLikeCount(token);
+  // }, []);
   return (
     <div css={likeContainer}>
       <button onClick={(e) => handleLikeClick(e, missionId)}>
@@ -88,7 +89,7 @@ export default function LikeButton({
   );
 }
 const likeCountWrapper = css`
-  border: 1px solid red;
+  font-size: 13px;
 `;
 const likeButtonStyle = css`
   width: 20px;
@@ -96,5 +97,8 @@ const likeButtonStyle = css`
 `;
 const likeContainer = css`
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: row;
+  gap: 3px;
 `;
