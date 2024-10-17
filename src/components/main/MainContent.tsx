@@ -6,7 +6,7 @@ import LikeButton from '../LikeButton';
 
 interface Post {
   id: string;
-  type: string;
+  type: number;
   creator: string;
   liked: boolean;
   likeCount: number;
@@ -16,25 +16,13 @@ export default function MainContent() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<'all' | 'liked'>('all');
+  const [filter, setFilter] = useState<
+    'all' | 'liked' | 'VANILLA_TODO' | 'REACT_TODO' | 'REACT_SNS'
+  >('all');
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 좋아요 상태 변경
 
-  // 좋아요 상태 변경 및 좋아요 개수 업데이트
-  const toggleLiked = (id: string) => {
-    setPosts(
-      posts.map((post) =>
-        post.id === id
-          ? {
-              ...post,
-              liked: !post.liked,
-            }
-          : post
-      )
-    );
-  };
-
-  // 좋아요 누른 항목만 필터링
+  // 필터링 된 항목들
   const filteredPosts =
     filter === 'liked' ? posts.filter((post) => post.liked) : posts;
   console.log(selectedPost);
@@ -43,12 +31,9 @@ export default function MainContent() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(
-          'https://stupid-kellie-recoder-fdfcec71.koyeb.app/missions',
-          {
-            headers: { accept: 'application/json' },
-          }
-        );
+        const response = await axios.get('http://localhost:8080/missions', {
+          headers: { accept: 'application/json' },
+        });
         setPosts(response.data);
       } catch (err) {
         setError('미션 목록을 가져오는 중 오류가 발생했습니다.');
@@ -62,7 +47,7 @@ export default function MainContent() {
   const handlePostClick = async (missionId: string) => {
     try {
       const response = await axios.get<Post>(
-        `https://stupid-kellie-recoder-fdfcec71.koyeb.app/mission/${missionId}`,
+        `http://localhost:8080/mission/${missionId}`,
         {
           headers: { accept: 'application/json' },
         }
@@ -76,32 +61,73 @@ export default function MainContent() {
     }
   };
 
+  // 카테고리 별 필터링
+  const handleFilteredPostClick = async (type: number) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/missions?type=${type}`,
+        {
+          headers: { accept: 'application/json' },
+        }
+      );
+      setFilter(response.data);
+    } catch (err) {
+      console.error('필터링 정보 오류 발생', err);
+      setError('카테코리 별 필터링 정보를 가져오는 중 오류가 발생했습니다.');
+    }
+  };
+
   if (error) {
     return <div>{error}</div>;
   }
   return (
     <main css={mainContainer}>
       <div css={filterContainer}>
-        <button css={filterButtonStyle} onClick={() => setFilter('all')}>
-          All
-        </button>
-        <button css={filterButtonStyle} onClick={() => setFilter('liked')}>
-          Liked
-        </button>
-      </div>
-      {/* 필터링 항목 영역 */}
-      <div>
-        <ul>
-          <li>
-            <button css={filterButtonStyle}>VANILLA_TODO</button>
-          </li>
-          <li>
-            <button css={filterButtonStyle}>REACT_TODO</button>
-          </li>
-          <li>
-            <button css={filterButtonStyle}>REACT_SNS</button>
-          </li>
-        </ul>
+        {/* 필터링 항목 영역 */}
+        <div>
+          <h2 css={h2Wrapper}>카테고리별로 작품들을 나눠서 보세요!</h2>
+        </div>
+        <div css={filterComponentView}>
+          <ul css={listContainer}>
+            <li>
+              <button css={filterButtonStyle} onClick={() => setFilter('all')}>
+                <span css={fontStyle}>All</span>
+              </button>
+            </li>
+            <li>
+              <button
+                css={filterButtonStyle}
+                onClick={() => setFilter('liked')}
+              >
+                <span css={fontStyle}>Liked</span>
+              </button>
+            </li>
+            <li>
+              <button
+                css={filterButtonStyle}
+                onClick={() => handleFilteredPostClick(1)}
+              >
+                <span css={fontStyle}>VANILLA_TODO</span>
+              </button>
+            </li>
+            <li>
+              <button
+                css={filterButtonStyle}
+                onClick={() => handleFilteredPostClick(2)}
+              >
+                <span css={fontStyle}>REACT_TODO</span>
+              </button>
+            </li>
+            <li>
+              <button
+                css={filterButtonStyle}
+                onClick={() => handleFilteredPostClick(3)}
+              >
+                <span css={fontStyle}>REACT_SNS</span>
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
       {/* 갤러리 영역 */}
       <div css={contentContainer}>
@@ -136,7 +162,30 @@ export default function MainContent() {
     </main>
   );
 }
-
+const fontStyle = css`
+  color: #212121;
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 64px;
+  margin-left: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+const listContainer = css`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 12px;
+`;
+const filterComponentView = css`
+  margin-top: 30px;
+`;
+const h2Wrapper = css`
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 28px;
+`;
 const footerContainer = css`
   display: flex;
   width: 100%;
@@ -146,10 +195,14 @@ const footerContainer = css`
 `;
 
 const filterButtonStyle = css`
-  border: 1px solid gray;
+  background: #fff;
   padding: 10px 15px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border-radius: 100px;
+  box-shadow: 0 1px 0 0 #00000005;
+  display: flex;
+  height: 92px;
+  max-width: 270px;
+  padding: 14px 40px 0 14px;
   color: #333;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -161,11 +214,15 @@ const filterButtonStyle = css`
 `;
 const filterContainer = css`
   display: flex;
+  flex-direction: column;
   gap: 5px;
-  margin: 0 0 20px 0;
   button {
     margin: 0 10px 0;
   }
+  @media (min-width: 996px) {
+    width: 652px;
+  }
+  margin: 0 auto;
 `;
 const mainContainer = css`
   width: 100%;
@@ -175,6 +232,7 @@ const mainContainer = css`
   flex-direction: column;
   min-height: 100vh;
   align-items: center;
+  background: #f7f7fa;
 `;
 const contentContainer = css`
   /* grid 보단 flex로 하는게 더 유연하다. */
@@ -185,18 +243,28 @@ const contentContainer = css`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  @media (min-width: 996px) {
+    width: 652px;
+  }
+  @media (min-width: 965px) {
+    width: 430px;
+  }
+  @media (min-width: 1188px) {
+    width: 874px;
+  }
+  margin: 0 auto;
 `;
 const contentWrapper = css`
   width: 135px;
-  height: 80px;
+  height: 208px;
   padding: 10px;
   border: 1px solid gray;
-  border-radius: 5px;
+  border-radius: 14px;
+  box-shadow: 0 1px 0 #00000005;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {

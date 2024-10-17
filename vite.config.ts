@@ -9,4 +9,8 @@ export default defineConfig({
       '@': '/src', // 절대 경로 import 설정
     },
   },
+  server: {
+    port: 3000,
+    open: true,
+  },
 });

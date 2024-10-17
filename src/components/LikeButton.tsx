@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LikeFill from '/assets/images/like-fill.svg';
 import Like from '/assets/images/like.svg';
 import axios from 'axios';
@@ -20,34 +20,32 @@ export default function LikeButton({
   const [liked, setLiked] = useState(initialLiked);
   const [likeCount, setLikeCount] = useState(initialLikeCount);
 
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iuq5gOycpOydvCIsInN1YiI6IjM1NWI3YWUxLWM1MmEtNDg2Yi04NThiLTIwMjkwM2Q5OWJhOSIsImlhdCI6MTcyOTE1NjY4NCwiZXhwIjoxNzI5MTYwMjg0fQ.no-bQYrPwMhM-AThZDx8MwLI7i9m4U7tBztWFK5p9Xw';
   const handleLikeClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
     missionId: string
   ) => {
     e.stopPropagation(); // 이벤트 전파 방지
-    if (!isLoggedIn) {
-      alert('로그인이 필요한 기능입니다.');
-      return;
-    }
+    // if (!isLoggedIn) {
+    //   alert('로그인이 필요한 기능입니다.');
+    //   return;
+    // }
     try {
-      const token = localStorage.getItem('accessToken');
-      if (!token) {
-        throw new Error(' 토큰이 없습니다.');
-      }
       // 좋아요 API 호출
       const response = await axios.post(
-        `https://stupid-kellie-recoder-fdfcec71.koyeb.app/mission/${missionId}/like`,
-        {
-          message: '좋아요 추가',
-        },
+        `http://localhost:8080/mission/${missionId}/like`,
+        {},
         {
           headers: {
+            Authorization: `Bearer ${token}`,
             accept: 'application/json',
           },
         }
       );
+      console.log('좋아요', liked);
       // API 호출 성공 시 상태 업데이트
-      if (response.status === 200) {
+      if (response.status === 201) {
         setLiked(!liked);
         setLikeCount(liked ? likeCount - 1 : likeCount + 1);
       }
@@ -59,19 +57,44 @@ export default function LikeButton({
       }
     }
   };
+
+  // 좋아요 갯수 기능
+  useEffect(() => {
+    const fetchLikeCount = async (token: string) => {
+      const response = await axios.post(
+        `http://localhost:8080/mission/${missionId}/like`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setLikeCount(response.data.likeCount);
+    };
+    fetchLikeCount(token);
+  }, []);
   return (
-    <div>
-      <button onClick={() => handleLikeClick}>
+    <div css={likeContainer}>
+      <button onClick={(e) => handleLikeClick(e, missionId)}>
         {liked ? (
           <img src={Like} css={likeButtonStyle} />
         ) : (
           <img src={LikeFill} css={likeButtonStyle} />
         )}
       </button>
+      <div css={likeCountWrapper}>{likeCount}</div>
     </div>
   );
 }
+const likeCountWrapper = css`
+  border: 1px solid red;
+`;
 const likeButtonStyle = css`
   width: 20px;
   height: 20px;
+`;
+const likeContainer = css`
+  display: flex;
+  flex-direction: row;
 `;
