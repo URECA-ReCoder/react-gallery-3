@@ -89,12 +89,12 @@ const GlobalStyles = () => {
         html,
         body {
           box-sizing: border-box;
+          background: #f7f7fa;
         }
         ul,
         li {
           padding: 0;
           margin: 0;
-          width: 100%;
         }
         a {
           text-decoration: none; /* 밑줄 제거 */
