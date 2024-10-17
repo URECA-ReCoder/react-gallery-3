@@ -29,7 +29,7 @@ const footerContainer = css`
   padding: 20px;
   text-align: center;
   font-size: 12px;
-  width: 1400px;
+  width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;
