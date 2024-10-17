@@ -12,11 +12,35 @@ export default function SignUpPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const setTokens = useAuthStore((state) => state.setTokens);
 
   const handleSignUp = async () => {
+    // 유효성 검사
+    if (!name || !email || !password) {
+      setErrorMessage('모든 필드를 채워주세요.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMessage('유효한 이메일 주소를 입력하세요.');
+      return;
+    }
+
+    if (password.length < 8) {
+      setErrorMessage('비밀번호는 최소 8자 이상이어야 합니다.');
+      return;
+    }
+
+    // 비밀번호 복잡성 검사 (대문자, 소문자, 숫자, 특수문자 포함)
+    const passwordComplexityRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordComplexityRegex.test(password)) {
+      setErrorMessage('비밀번호는 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.');
+      return;
+    }
+
     try {
       const response = await register(name, email, password);
       const { accessToken, refreshToken } = response;
@@ -29,7 +53,6 @@ export default function SignUpPage() {
     } catch (error) {
       console.error('회원가입 실패:', error);
 
-      // 에러 핸들링
       if (error.response) {
         if (error.response.status === 409) {
           setErrorMessage('이미 가입된 이메일이나 사용자 이름입니다.');
@@ -52,7 +75,7 @@ export default function SignUpPage() {
           <div css={inputContainerStyle}>
             <Input 
               id="name" 
-              label="name" 
+              label="이름" 
               type="text" 
               name="name"
               value={name}  
@@ -60,7 +83,7 @@ export default function SignUpPage() {
             />
             <Input 
               id="email" 
-              label="email" 
+              label="이메일" 
               type="email" 
               name="email"
               value={email}
@@ -68,7 +91,7 @@ export default function SignUpPage() {
             />
             <Input 
               id="password" 
-              label="password" 
+              label="비밀번호" 
               type="password" 
               name="password"
               value={password}
@@ -80,8 +103,8 @@ export default function SignUpPage() {
             <SignUpButton onClick={handleSignUp} /> 
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 }
