@@ -6,7 +6,7 @@ import LikeButton from '../LikeButton';
 import ReactLogo from '/assets/images/react-logo.png';
 interface Post {
   id: string;
-  type: number;
+  type: string | number;
   creator: string;
   likes: {
     id: string;
@@ -28,9 +28,18 @@ export default function MainContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 좋아요 상태 변경
 
   // 필터링 된 항목들
-  const filteredPosts =
-    filter === 'like' ? posts.filter((post) => post.likes) : posts;
-  console.log(selectedPost);
+  const filteredPosts = posts.filter((post) => {
+    if (filter === 'like') {
+      return post.likes.length > 0;
+    } else if (filter === 'VANILLA_TODO') {
+      return post.type === 'VANILLA_TODO';
+    } else if (filter === 'REACT_TODO') {
+      return post.type === 'REACT_TODO';
+    } else if (filter === 'REACT_SNS') {
+      return post.type === 'REACT_SNS';
+    }
+    return true; // 'all'의 경우 전체 표시
+  });
 
   // 미션 목록 가져오기 API
   useEffect(() => {
@@ -66,21 +75,6 @@ export default function MainContent() {
     }
   };
 
-  // 카테고리 별 필터링
-  const handleFilteredPostClick = async (type: number) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/missions?type=${type}`,
-        {
-          headers: { accept: 'application/json' },
-        }
-      );
-      setFilter(response.data);
-    } catch (err) {
-      console.error('필터링 정보 오류 발생', err);
-      setError('카테코리 별 필터링 정보를 가져오는 중 오류가 발생했습니다.');
-    }
-  };
   const fetchProfile = async () => {
     try {
       const response = await axios.get('http://localhost:8080/profile', {
@@ -92,7 +86,6 @@ export default function MainContent() {
       setError('현재 로그인한 사용자 정보를 가져오는 중 오류가 발생했습니다.');
     }
   };
-  console.log('fetchProfile', fetchProfile);
   if (error) {
     return <div>{error}</div>;
   }
@@ -125,7 +118,7 @@ export default function MainContent() {
               <li>
                 <button
                   css={filterButtonStyle}
-                  onClick={() => handleFilteredPostClick(1)}
+                  onClick={() => setFilter('VANILLA_TODO')}
                 >
                   <span css={filterButtonText}>VANILLA_TODO</span>
                 </button>
@@ -133,7 +126,7 @@ export default function MainContent() {
               <li>
                 <button
                   css={filterButtonStyle}
-                  onClick={() => handleFilteredPostClick(2)}
+                  onClick={() => setFilter('REACT_TODO')}
                 >
                   <span css={filterButtonText}>REACT_TODO</span>
                 </button>
@@ -141,7 +134,7 @@ export default function MainContent() {
               <li>
                 <button
                   css={filterButtonStyle}
-                  onClick={() => handleFilteredPostClick(3)}
+                  onClick={() => setFilter('REACT_SNS')}
                 >
                   <span css={filterButtonImageWrapper}>
                     <img css={filterImageStyle} src={ReactLogo} />
