@@ -25,7 +25,10 @@ const reset = css`
   h3,
   h4,
   h5,
-  h6 {
+  h6,
+  input,
+  select,
+  table {
     margin: 0;
     padding: 0;
   }
@@ -48,6 +51,7 @@ const reset = css`
   input,
   select {
     margin: 0;
+    padding: 0;
     border: none;
   }
 
@@ -80,25 +84,26 @@ const GlobalStyles = () => {
         * {
           font-family: 'Pretendard', Arial, Helvetica, sans-serif;
           overscroll-behavior: none; // 스크롤이 오버되는 것을 막아준다.
+          scrollbar-width: none; // 스크롤의 기본 스타일은 지우고 스크롤의 기능만 사용
         }
         html,
         body {
           box-sizing: border-box;
-
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
+          background: #f7f7fa;
         }
         ul,
         li {
           padding: 0;
           margin: 0;
-          list-style-type: none;
         }
         a {
           text-decoration: none; /* 밑줄 제거 */
           color: inherit; /* 텍스트 색상을 부모 요소와 일치 */
           cursor: pointer; /* 마우스 포인터를 손가락 모양으로 */
+        }
+        button {
+          background: none;
+          cursor: pointer;
         }
       `}
     />

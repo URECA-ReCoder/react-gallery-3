@@ -33,6 +33,7 @@ const footerContainer = css`
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index: 3;
 `;
 
 const footerContent = css`
