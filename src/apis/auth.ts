@@ -19,7 +19,7 @@ export const login = async (email, password) => {
 // 회원가입 API
 export const register = async (name, email, password) => {
   const response = await apiClient.post('/auth/register', {
-    name,
+    username: name,
     email,
     password,
   });
@@ -54,29 +54,31 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response) {
-      // 토큰 만료로 인한 401 Unauthorized 발생 시
-      if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
+    // if (error.response) {
+    //   // 토큰 만료로 인한 401 Unauthorized 발생 시
+   
+    //   if (error.response.message === 
+    //     "유효하지 않거나 만료된 토큰입니다." && !originalRequest._retry) {
+    //     originalRequest._retry = true;
 
-        try {
-          const refreshToken = localStorage.getItem('refreshToken');
-          if (!refreshToken) throw new Error('No refresh token available');
+    //     try {
+    //       const refreshToken = localStorage.getItem('refreshToken');
+    //       if (!refreshToken) throw new Error('No refresh token available');
 
-          const { accessToken } = await reissueToken(refreshToken);
-          localStorage.setItem('accessToken', accessToken);
-          originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
-          return apiClient(originalRequest);
-        } catch (tokenError) {
-          console.error('Token reissue failed:', tokenError);
-          return Promise.reject(tokenError);
-        }
-      }
-    } else {
-      console.error('Network Error:', error);
-    }
+    //       const { accessToken } = await reissueToken(refreshToken);
+    //       localStorage.setItem('accessToken', accessToken);
+    //       originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+    //       return apiClient(originalRequest);
+    //     } catch (tokenError) {
+    //       console.error('Token reissue failed:', tokenError);
+    //       return Promise.reject(tokenError);
+    //     }
+    //   }
+    // } else {
+    //   console.error('Network Error:', error);
+    // }
 
-    return Promise.reject(error);
+    // return Promise.reject(error);
   }
 );
 
