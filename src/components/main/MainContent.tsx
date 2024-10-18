@@ -3,7 +3,10 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import SelectedMissionModal from '../modal/SelectedMissionModal';
 import LikeButton from '../LikeButton';
-import ReactLogo from '/assets/images/react-logo.png';
+import ReactLogo from '/assets/images/react-logo.svg';
+import JavaScriptLogo from '/assets/images/javascript-logo.png';
+import Globe from '/assets/images/globe.png';
+import Like from '/assets/images/like.svg';
 interface Post {
   id: string;
   type: string | number;
@@ -104,6 +107,7 @@ export default function MainContent() {
                   css={filterButtonStyle}
                   onClick={() => setFilter('all')}
                 >
+                  <img css={filterImageStyle} src={Globe} />
                   <span css={filterButtonText}>All</span>
                 </button>
               </li>
@@ -112,6 +116,7 @@ export default function MainContent() {
                   css={filterButtonStyle}
                   onClick={() => setFilter('like')}
                 >
+                  <img css={filterImageStyle} src={Like} />
                   <span css={filterButtonText}>Like</span>
                 </button>
               </li>
@@ -120,6 +125,7 @@ export default function MainContent() {
                   css={filterButtonStyle}
                   onClick={() => setFilter('VANILLA_TODO')}
                 >
+                  <img css={filterImageStyle} src={JavaScriptLogo} />
                   <span css={filterButtonText}>VANILLA_TODO</span>
                 </button>
               </li>
@@ -128,6 +134,7 @@ export default function MainContent() {
                   css={filterButtonStyle}
                   onClick={() => setFilter('REACT_TODO')}
                 >
+                  <img css={filterImageStyle} src={ReactLogo} />
                   <span css={filterButtonText}>REACT_TODO</span>
                 </button>
               </li>
