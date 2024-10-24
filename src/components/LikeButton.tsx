@@ -21,7 +21,7 @@ export default function LikeButton({
   const [likeCount, setLikeCount] = useState(initialLikeCount);
 
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iuq5gOycpOydvCIsInN1YiI6IjM1NWI3YWUxLWM1MmEtNDg2Yi04NThiLTIwMjkwM2Q5OWJhOSIsImlhdCI6MTcyOTE2NDE4NCwiZXhwIjoxNzI5MTY3Nzg0fQ.dJDtN7gVar54PxzDLst8u9l-IsF9co4X6H6_p601niw';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iuq5gOycpOydvCIsInN1YiI6IjM1NWI3YWUxLWM1MmEtNDg2Yi04NThiLTIwMjkwM2Q5OWJhOSIsImlhdCI6MTcyOTI0MjM3NiwiZXhwIjoxNzI5MjQ1OTc2fQ.8ewtuF-R56rTD3u7Os_NIhbC_MgLA1WNC7P5bTpDJ4Y';
   const handleLikeClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
     missionId: string

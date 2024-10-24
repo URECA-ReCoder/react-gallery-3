@@ -321,14 +321,16 @@ const contentWrapper = css`
     transform: translateY(-5px);
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
     h2 {
-      color: #212121;
+      color: #fff;
       display: block;
       font-size: 19px;
       font-weight: 900;
       line-height: 23px;
     }
 
+    background: linear-gradient(134deg, #07d8e2 54.07%, #35e99d 99.24%);
     span {
+      color: #fff;
       font-size: 16px;
       font-weight: 500;
     }

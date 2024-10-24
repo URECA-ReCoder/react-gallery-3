@@ -13,6 +13,9 @@ export default function Header() {
             <a href="/login">Login</a>
           </button>
           {/* <a href="/myprofile">MyPage</a> */}
+          <button css={headerLoginButton}>
+            <a href="/sign">SignUp</a>
+          </button>
         </nav>
       </div>
     </header>
