@@ -15,35 +15,40 @@ export default function Footer() {
           </p>
           <p>Copyright (C) 2024 Recoder University. All Rights Reserved</p>
         </div>
-        <div css={siteInputContainer}>
+        {/* <div css={siteInputContainer}>
           <input type="text" placeholder="SITE" />
-        </div>
+        </div> */}
       </div>
     </footer>
   );
 }
 
 const footerContainer = css`
-  background-color: #3b3b3b;
+  background: #f7f7fa;
   color: white;
-  padding: 20px;
   text-align: center;
   font-size: 12px;
   width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 3;
+  margin: auto auto 0;
+  padding: 0 50px 70px;
 `;
 
 const footerContent = css`
   display: flex;
+  border-top: 1px solid #ebedf2;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  margin-top: 18px;
+  padding: 20px 0 22px;
 `;
 
 const footerInfo = css`
+  /* border-top: 1px solid #ebedf2; */
+
+  color: #949494;
+  font-size: 12px;
+  line-height: 21px;
   text-align: left;
 
   p {
